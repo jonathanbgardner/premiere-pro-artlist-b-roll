@@ -1,0 +1,313 @@
+{
+  "schema_version": 1,
+  "project": "field_notes_ep12",
+  "fps": 29.97,
+  "drop_frame": false,
+  "shots": [
+    {
+      "id": "S001",
+      "start_tc": "00:00:00:00",
+      "duration_s": 32.65,
+      "type": "music",
+      "reason": "Intro music bed: warm, inviting, medium, 90-100 bpm",
+      "queries": [
+        "acoustic folk intro warm",
+        "acoustic folk opening",
+        "warm hopeful intro"
+      ],
+      "status": "pending",
+      "file": null,
+      "confidence": 0.0,
+      "updated_by": "A",
+      "section": "intro",
+      "mood": "warm, inviting",
+      "tempo": "medium, 90-100 bpm"
+    },
+    {
+      "id": "S002",
+      "start_tc": "00:00:11:00",
+      "duration_s": 5.759,
+      "type": "stock_video",
+      "reason": "Place (Billings Montana): \"Today I'm sitting down with Dana Whitfield, who runs a...\"",
+      "queries": [
+        "Billings Montana aerial",
+        "cattle herd",
+        "rural farmland"
+      ],
+      "status": "pending",
+      "file": null,
+      "confidence": 0.0,
+      "updated_by": "A",
+      "trigger": "place"
+    },
+    {
+      "id": "S003",
+      "start_tc": "00:00:26:23",
+      "duration_s": 6.0,
+      "type": "stock_video",
+      "reason": "Mentions cattle, dawn: \"Most mornings start before dawn. I'm out feeding the cattle around...\"",
+      "queries": [
+        "cattle herd feeding",
+        "cattle herd",
+        "rural farmland"
+      ],
+      "status": "pending",
+      "file": null,
+      "confidence": 0.0,
+      "updated_by": "A",
+      "trigger": "concrete_noun"
+    },
+    {
+      "id": "S004",
+      "start_tc": "00:00:32:19",
+      "duration_s": 189.194,
+      "type": "music",
+      "reason": "Main music bed: light, unobtrusive underscore, steady, 90-110 bpm",
+      "queries": [
+        "acoustic folk underscore light",
+        "acoustic folk background",
+        "soft documentary underscore"
+      ],
+      "status": "pending",
+      "file": null,
+      "confidence": 0.0,
+      "updated_by": "A",
+      "section": "main",
+      "mood": "light, unobtrusive underscore",
+      "tempo": "steady, 90-110 bpm"
+    },
+    {
+      "id": "S005",
+      "start_tc": "00:00:39:08",
+      "duration_s": 6.0,
+      "type": "stock_video",
+      "reason": "Mentions tractor, fence: \"Back then everything was done by horse. Now my son runs the...\"",
+      "queries": [
+        "tractor plowing field",
+        "rural farmland"
+      ],
+      "status": "pending",
+      "file": null,
+      "confidence": 0.0,
+      "updated_by": "A",
+      "trigger": "concrete_noun"
+    },
+    {
+      "id": "S006",
+      "start_tc": "00:00:47:23",
+      "duration_s": 4.0,
+      "type": "stock_video",
+      "reason": "Long talking-head stretch; Talking-head cutaway: \"Back then everything was done by horse. Now my son runs the...\"",
+      "queries": [
+        "rural farmland detail",
+        "rural farmland",
+        "lifestyle b-roll"
+      ],
+      "status": "pending",
+      "file": null,
+      "confidence": 0.0,
+      "updated_by": "A",
+      "trigger": "talking_head"
+    },
+    {
+      "id": "S007",
+      "start_tc": "00:01:09:09",
+      "duration_s": 6.0,
+      "type": "stock_video",
+      "reason": "Mentions drought, creek: \"When the drought hit in 2021, the creek that runs through our...\"",
+      "queries": [
+        "dry cracked earth",
+        "nature landscape"
+      ],
+      "status": "pending",
+      "file": null,
+      "confidence": 0.0,
+      "updated_by": "A",
+      "trigger": "concrete_noun"
+    },
+    {
+      "id": "S008",
+      "start_tc": "00:01:24:27",
+      "duration_s": 6.0,
+      "type": "stock_video",
+      "reason": "Place (Main Street): \"You drive into town now and half the stores on Main Street are empty.\"",
+      "queries": [
+        "Main Street aerial",
+        "small town driving",
+        "small town"
+      ],
+      "status": "pending",
+      "file": null,
+      "confidence": 0.0,
+      "updated_by": "A",
+      "trigger": "place"
+    },
+    {
+      "id": "S009",
+      "start_tc": "00:01:32:27",
+      "duration_s": 4.417,
+      "type": "stock_video",
+      "reason": "Mentions farm, community: \"That's the part people don't see. It's not just one farm, it's the...\"",
+      "queries": [
+        "family farm close up",
+        "family farm",
+        "rural farmland"
+      ],
+      "status": "pending",
+      "file": null,
+      "confidence": 0.0,
+      "updated_by": "A",
+      "trigger": "concrete_noun"
+    },
+    {
+      "id": "S010",
+      "start_tc": "00:01:52:18",
+      "duration_s": 6.0,
+      "type": "ai_video",
+      "reason": "Abstract idea: \"There's a whole world underground, the microbiome, the bacteria...\"",
+      "queries": [
+        "soil microbes microscope",
+        "soil close up macro",
+        "healthy soil"
+      ],
+      "status": "pending",
+      "file": null,
+      "confidence": 0.0,
+      "updated_by": "A",
+      "ai_prompt": "Macro cinematic shot of soil microbes and fungal threads glowing under a microscope, slow push-in, 4K, no text",
+      "trigger": "abstract"
+    },
+    {
+      "id": "S011",
+      "start_tc": "00:02:00:18",
+      "duration_s": 6.0,
+      "type": "stock_video",
+      "reason": "Mentions cattle, field: \"So we started moving the cattle every few days instead of leaving...\"",
+      "queries": [
+        "cattle herd close up",
+        "cattle herd",
+        "rural farmland"
+      ],
+      "status": "pending",
+      "file": null,
+      "confidence": 0.0,
+      "updated_by": "A",
+      "trigger": "concrete_noun"
+    },
+    {
+      "id": "S012",
+      "start_tc": "00:02:20:18",
+      "duration_s": 4.08,
+      "type": "stock_video",
+      "reason": "Mentions hay: \"We cut our hay purchases almost in half.\"",
+      "queries": [
+        "hay bales close up",
+        "hay bales",
+        "rural farmland"
+      ],
+      "status": "pending",
+      "file": null,
+      "confidence": 0.0,
+      "updated_by": "A",
+      "trigger": "concrete_noun"
+    },
+    {
+      "id": "S013",
+      "start_tc": "00:02:38:14",
+      "duration_s": 6.0,
+      "type": "stock_video",
+      "reason": "Mentions drone, pasture: \"And my daughter flies a drone over the far pasture to count...\"",
+      "queries": [
+        "drone flying close up",
+        "drone flying",
+        "technology close up"
+      ],
+      "status": "pending",
+      "file": null,
+      "confidence": 0.0,
+      "updated_by": "A",
+      "trigger": "concrete_noun"
+    },
+    {
+      "id": "S014",
+      "start_tc": "00:03:03:22",
+      "duration_s": 6.0,
+      "type": "stock_video",
+      "reason": "Place (Montana State): \"My kids grew up here. My daughter is studying agriculture at...\"",
+      "queries": [
+        "Montana State aerial",
+        "kids playing",
+        "people lifestyle"
+      ],
+      "status": "pending",
+      "file": null,
+      "confidence": 0.0,
+      "updated_by": "A",
+      "trigger": "place"
+    },
+    {
+      "id": "S015",
+      "start_tc": "00:03:28:07",
+      "duration_s": 5.0,
+      "type": "stock_video",
+      "reason": "Long talking-head stretch; Mentions calf, city: \"There's nothing like watching a newborn calf stand up for the...\"",
+      "queries": [
+        "newborn calf snow",
+        "newborn calf",
+        "rural farmland"
+      ],
+      "status": "pending",
+      "file": null,
+      "confidence": 0.0,
+      "updated_by": "A",
+      "trigger": "talking_head"
+    },
+    {
+      "id": "S016",
+      "start_tc": "00:03:41:20",
+      "duration_s": 31.641,
+      "type": "music",
+      "reason": "Outro music bed: uplifting, resolving, medium, 90-100 bpm",
+      "queries": [
+        "acoustic folk uplifting ending",
+        "acoustic folk outro",
+        "hopeful ending"
+      ],
+      "status": "pending",
+      "file": null,
+      "confidence": 0.0,
+      "updated_by": "A",
+      "section": "outro",
+      "mood": "uplifting, resolving",
+      "tempo": "medium, 90-100 bpm"
+    },
+    {
+      "id": "S017",
+      "start_tc": "00:03:51:19",
+      "duration_s": 6.0,
+      "type": "stock_video",
+      "reason": "Mentions beef, grocery: \"When you buy beef at the grocery store, there's a ranch like ours...\"",
+      "queries": [
+        "beef steak close up",
+        "beef steak",
+        "food preparation"
+      ],
+      "status": "pending",
+      "file": null,
+      "confidence": 0.0,
+      "updated_by": "A",
+      "trigger": "concrete_noun"
+    }
+  ],
+  "ai_budget": {
+    "max_clips": 8,
+    "approved": [],
+    "generated": []
+  },
+  "source_sequence": "field_notes_ep12_main",
+  "generator": {
+    "workstream": "A",
+    "mode": "offline"
+  },
+  "transcript": "transcript/interview_4min.srt"
+}
