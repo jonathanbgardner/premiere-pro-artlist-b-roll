@@ -1,0 +1,112 @@
+# Artlist MCP configuration for Workstream D (rationed AI generation).
+#
+# STATUS OF THIS FILE: PARTLY VERIFIED. Read every "VERIFY" before spending credits.
+#
+# What is publicly documented (Artlist help center / blog / artlist.io/mcp, checked 2026-11):
+#   - Server URL https://mcp.artlist.io/mcp (remote MCP, added as a "custom connector").
+#   - Auth is "sign in with your Artlist account" (OAuth in Claude / ChatGPT / VS Code).
+#     Whether a static bearer token works from a script is NOT documented.  -> VERIFY
+#   - Beta. Supported: text-to-image, text-to-video (one article also says voiceover).
+#     NOT supported via MCP yet: music generation, catalog search, video-to-video.
+#   - Credit-based only (Unlimited plans don't apply to MCP). Same credit pool as the web
+#     AI Toolkit. Credits are deducted when the request is made; a generation can't be
+#     cancelled once started.
+#   - Rate limit: 120 requests/minute per account across image/video/voiceover tools.
+#   - Video requests return a generation ID; progress is checked in a separate step
+#     (async job + polling). Outputs are also saved to a session in the Artlist account.
+#
+# What is NOT public: exact tool names, argument names, response field names, and
+# per-model MCP credit pricing. Run this to see the real tools and fill in the mapping:
+#
+#     ARTLIST_MCP_TOKEN=... python -m pipeline.ai_gen tools
+#
+# Every value below that is a guess carries "VERIFY".
+
+[server]
+transport = "streamable_http"           # "streamable_http" | "stdio"
+url = "https://mcp.artlist.io/mcp"      # documented
+token_env = "ARTLIST_MCP_TOKEN"         # read from env; never logged or written
+auth_header = "Authorization"           # VERIFY (OAuth access token as Bearer is the MCP norm)
+auth_scheme = "Bearer"                  # VERIFY
+timeout_s = 120
+# stdio transport only (e.g. a local proxy/bridge, or the test fake server):
+command = ""
+args = []
+env = {}
+env_passthrough = []                    # names of env vars copied into the child process
+pass_token_env = false                  # also pass token_env into the child
+
+[poll]
+interval_s = 10.0
+timeout_s = 1800.0
+max_status_errors = 5                   # consecutive status-call errors before giving up (job stays resumable)
+
+[generate]
+confidence = 0.7                        # confidence written on downloaded AI shots
+require_approval_hash = false           # true: refuse shots approved by hand-edit (no hash)
+
+[response]
+# Where to find things in a tool result (structured content, or JSON in text content).
+# Searched recursively, first key that matches wins.  VERIFY against `tools` output / a real call.
+job_id_keys = ["generation_id", "generationId", "job_id", "jobId", "task_id", "id"]
+status_keys = ["status", "state"]
+url_keys = ["video_url", "videoUrl", "audio_url", "audioUrl", "asset_url", "assetUrl", "download_url", "downloadUrl", "url"]
+error_keys = ["error", "error_message", "message"]
+done_values = ["completed", "complete", "succeeded", "success", "done", "ready", "finished"]
+failed_values = ["failed", "failure", "error", "errored", "cancelled", "canceled", "rejected"]
+
+# ---------------------------------------------------------------- video
+[tools.video]
+enabled = true
+submit_tool = "generate_video"          # VERIFY: tool name unknown
+status_tool = "get_generation_status"   # VERIFY: tool name unknown
+model = "veo-3.1-fast"                  # VERIFY: model id string as the MCP expects it
+resolution = "720p"                     # VERIFY
+duration_choices = [4, 6, 8]            # VERIFY: allowed clip lengths for the model; shot duration rounds UP
+# Argument templates. "{x}" alone keeps the native type; mixed strings are str.format'ed.
+# Variables: prompt, duration_s, model, resolution, shot_id, aspect_ratio
+[tools.video.submit_args]               # VERIFY: argument names
+prompt = "{prompt}"
+model = "{model}"
+duration = "{duration_s}"
+resolution = "{resolution}"
+aspect_ratio = "16:9"
+[tools.video.status_args]               # VERIFY
+generation_id = "{job_id}"
+
+# ---------------------------------------------------------------- audio
+# Artlist documents that music generation is NOT available through MCP yet.
+# Voiceover may be. ai_audio shots are planned (so Jonathan sees them) but are not sent
+# until this is enabled and mapped.
+[tools.audio]
+enabled = false
+submit_tool = "generate_voiceover"      # VERIFY
+status_tool = "get_generation_status"   # VERIFY
+model = ""                              # VERIFY
+resolution = ""
+duration_choices = []
+[tools.audio.submit_args]
+text = "{prompt}"
+[tools.audio.status_args]
+generation_id = "{job_id}"
+
+# ---------------------------------------------------------------- credits
+# Credits per second of output, from Artlist's AI Toolkit pricing article (web toolkit,
+# not MCP-specific; formatting of the source table was ambiguous).  VERIFY all.
+# est_credits = credits_per_second[model][resolution] * generated duration.
+[credits]
+default_per_second = 300                # used when the model/resolution isn't listed (conservative)
+audio_flat = 0                          # unknown; VERIFY
+
+[credits.per_second."veo-3.1"]
+"720p" = 300
+"1080p" = 500
+[credits.per_second."veo-3.1-fast"]
+"720p" = 175
+"1080p" = 280
+[credits.per_second."kling-2.1-master"]
+"1080p" = 300
+[credits.per_second."seedance-1.5-pro"]
+"480p" = 40
+"720p" = 100                            # VERIFY: source gave a 40-200 range by resolution
+"1080p" = 200
