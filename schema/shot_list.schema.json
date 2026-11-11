@@ -4,51 +4,223 @@
   "title": "shot_list.json (contract v1)",
   "description": "Shared contract between workstreams A (generator), B (Artlist download), C (Premiere timeline), D (AI generation) and the orchestrator. Unknown extra fields are allowed so a workstream can carry its own metadata, but the fields listed here have fixed meaning.",
   "type": "object",
-  "required": ["schema_version", "project", "fps", "shots", "ai_budget"],
+  "required": [
+    "schema_version",
+    "project",
+    "fps",
+    "shots",
+    "ai_budget"
+  ],
   "properties": {
-    "schema_version": { "const": 1 },
-    "project": { "type": "string", "minLength": 1 },
-    "fps": { "type": "number", "exclusiveMinimum": 0, "description": "Sequence frame rate, e.g. 23.976, 25, 29.97, 59.94." },
-    "drop_frame": { "type": "boolean", "default": false, "description": "True if start_tc values are drop-frame (only valid for 29.97/59.94). Drop-frame TCs use ';' before the frames field." },
-    "source_sequence": { "type": "string", "description": "Name of the original Premiere sequence. Workstream C duplicates it to <name>_BROLL_v1." },
+    "schema_version": {
+      "const": 1
+    },
+    "project": {
+      "type": "string",
+      "minLength": 1
+    },
+    "fps": {
+      "type": "number",
+      "exclusiveMinimum": 0,
+      "description": "Sequence frame rate, e.g. 23.976, 25, 29.97, 59.94."
+    },
+    "drop_frame": {
+      "type": "boolean",
+      "default": false,
+      "description": "True if start_tc values are drop-frame (only valid for 29.97/59.94). Drop-frame TCs use ';' before the frames field."
+    },
+    "source_sequence": {
+      "type": "string",
+      "description": "Name of the original Premiere sequence. Workstream C duplicates it to <name>_BROLL_v1."
+    },
     "shots": {
       "type": "array",
-      "items": { "$ref": "#/$defs/shot" }
+      "items": {
+        "$ref": "#/$defs/shot"
+      },
+      "description": "start_tc counts from the first frame of the source sequence (00:00:00:00). C's timecode_origin=auto also accepts display timecode when the sequence starts at e.g. 01:00:00:00."
     },
     "ai_budget": {
       "type": "object",
-      "required": ["max_clips", "approved"],
+      "required": [
+        "max_clips",
+        "approved"
+      ],
       "properties": {
-        "max_clips": { "type": "integer", "minimum": 0 },
-        "approved": { "type": "array", "items": { "type": "string", "pattern": "^S\\d{3,}$" }, "uniqueItems": true, "description": "Shot IDs Jonathan approved for AI generation. Only a human edits this list." },
-        "generated": { "type": "array", "items": { "type": "string" }, "uniqueItems": true, "description": "Shot IDs already generated (counts against max_clips)." }
+        "max_clips": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "approved": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^S\\d{3,}$"
+          },
+          "uniqueItems": true,
+          "description": "Shot IDs Jonathan approved for AI generation. Only a human edits this list."
+        },
+        "generated": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true,
+          "description": "Shot IDs that consumed a generation slot, INCLUDING failed attempts (credits are charged at request time). Counts against max_clips. Only a human removes an ID to allow a retry."
+        }
       }
+    },
+    "generator": {
+      "description": "A: generator metadata."
+    },
+    "transcript": {
+      "description": "A: transcript source info."
     }
   },
   "$defs": {
     "shot": {
       "type": "object",
-      "required": ["id", "start_tc", "duration_s", "type", "reason", "queries", "status", "file", "confidence"],
+      "required": [
+        "id",
+        "start_tc",
+        "duration_s",
+        "type",
+        "reason",
+        "queries",
+        "status",
+        "file",
+        "confidence"
+      ],
       "properties": {
-        "id": { "type": "string", "pattern": "^S\\d{3,}$" },
-        "start_tc": { "type": "string", "pattern": "^\\d{2}:\\d{2}:\\d{2}[:;]\\d{2}$", "description": "SMPTE HH:MM:SS:FF in sequence time at the list's fps." },
-        "duration_s": { "type": "number", "exclusiveMinimum": 0, "description": "3-8 s for video; music beds may be longer." },
-        "type": { "enum": ["stock_video", "music", "ai_video", "ai_audio"] },
-        "reason": { "type": "string" },
-        "queries": { "type": "array", "items": { "type": "string" }, "description": "Artlist search queries, most specific first (2-3)." },
-        "status": { "enum": ["pending", "downloaded", "placed", "needs_ai", "failed"] },
-        "file": { "type": ["string", "null"], "description": "Path relative to project_root, e.g. assets/S001.mp4. null until downloaded/generated." },
-        "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
-
-        "section": { "enum": ["intro", "main", "outro"], "description": "Music beds only." },
-        "mood": { "type": "string", "description": "Music beds only." },
-        "tempo": { "type": "string", "description": "Music beds only, e.g. 'slow', '90-110 bpm'." },
-        "ai_prompt": { "type": "string", "description": "Prompt for ai_video / ai_audio / needs_ai shots (written by A or D)." },
-        "est_credits": { "type": "number", "minimum": 0, "description": "Estimated AI credits (written by D)." },
-        "source_title": { "type": "string", "description": "Artlist clip title (written by B)." },
-        "source_url": { "type": "string", "description": "Artlist clip URL (written by B)." },
-        "error": { "type": "string", "description": "Last failure message, if status is failed." },
-        "updated_by": { "enum": ["A", "B", "C", "D", "orchestrator", "human"] }
+        "id": {
+          "type": "string",
+          "pattern": "^S\\d{3,}$"
+        },
+        "start_tc": {
+          "type": "string",
+          "pattern": "^\\d{2}:\\d{2}:\\d{2}[:;]\\d{2}$",
+          "description": "SMPTE HH:MM:SS:FF in sequence time at the list's fps."
+        },
+        "duration_s": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "description": "3-8 s for video; music beds may be longer."
+        },
+        "type": {
+          "enum": [
+            "stock_video",
+            "music",
+            "ai_video",
+            "ai_audio"
+          ]
+        },
+        "reason": {
+          "type": "string"
+        },
+        "queries": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Artlist search queries, most specific first (2-3)."
+        },
+        "status": {
+          "enum": [
+            "pending",
+            "downloaded",
+            "placed",
+            "needs_ai",
+            "failed"
+          ]
+        },
+        "file": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Path relative to project_root, e.g. assets/S001.mp4. null until downloaded/generated. Authoritative path: real extension is kept (.mp4/.mov video, .wav/.mp3 audio)."
+        },
+        "confidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "section": {
+          "enum": [
+            "intro",
+            "main",
+            "outro"
+          ],
+          "description": "Music beds only."
+        },
+        "mood": {
+          "type": "string",
+          "description": "Music beds only."
+        },
+        "tempo": {
+          "type": "string",
+          "description": "Music beds only, e.g. 'slow', '90-110 bpm'."
+        },
+        "ai_prompt": {
+          "type": "string",
+          "description": "Prompt for ai_video / ai_audio / needs_ai shots (written by A or D)."
+        },
+        "est_credits": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Estimated AI credits (written by D)."
+        },
+        "source_title": {
+          "type": "string",
+          "description": "Artlist clip title (written by B)."
+        },
+        "source_url": {
+          "type": "string",
+          "description": "Artlist clip URL (written by B)."
+        },
+        "error": {
+          "type": "string",
+          "description": "Last failure message, if status is failed."
+        },
+        "updated_by": {
+          "enum": [
+            "A",
+            "B",
+            "C",
+            "D",
+            "orchestrator",
+            "human"
+          ]
+        },
+        "sequence": {
+          "type": "boolean",
+          "description": "A: allowed to follow another B-roll clip with < 2 s gap."
+        },
+        "trigger": {
+          "type": "string",
+          "description": "A: what in the transcript flagged this shot."
+        },
+        "b_no_match_reason": {
+          "type": "string",
+          "description": "B: why no Artlist clip fit (status needs_ai)."
+        },
+        "ai_approval_hash": {
+          "type": "string",
+          "description": "D: hash of type+prompt+duration at approval time."
+        },
+        "ai_job_id": {
+          "type": "string"
+        },
+        "ai_asset_url": {
+          "type": "string"
+        },
+        "ai_tool": {
+          "type": "string"
+        },
+        "ai_reserved_at": {
+          "type": "string",
+          "description": "D: when a budget slot was reserved for this shot."
+        }
       }
     }
   }

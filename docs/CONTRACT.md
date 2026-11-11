@@ -39,3 +39,15 @@ project_root/
 - `ai_budget.approved` is written by a human only. D appends to `ai_budget.generated` and never lets `len(generated)` exceed `max_clips`.
 - Every writer sets `updated_by` on shots it touches.
 - `logs/picks.csv` columns: `timestamp,shot_id,type,query,title,url,resolution,duration_s,confidence,file`.
+
+## Integration addenda (after the four workstreams reported)
+
+Additive only; `schema_version` stays 1 and every existing list stays valid.
+
+- **Timecode origin.** `start_tc` counts from the source sequence's first frame (`00:00:00:00`), which is what A writes. C's job option `timecode_origin: "auto"` also accepts display timecode when the sequence starts at e.g. `01:00:00:00` (it subtracts the start only if every TC is past it). `duration_s` rounds to the nearest whole frame on the timeline. If `drop_frame` and the `;` separator disagree, the separator wins.
+- **File extensions.** `shot.file` is authoritative. B keeps the real extension (`.mp4`/`.mov`, `.wav`/`.mp3`), and D may return `.mp3`. `ASSET_EXT` is only the default for new names.
+- **`ai_budget.generated`** means "slots used", including failed attempts, because Artlist charges at request time. Only a human removes an ID to allow a retry.
+- **Extra shot fields** (now in the schema): A writes `trigger` and `sequence`; B writes `b_no_match_reason`; D writes `ai_approval_hash`, `ai_job_id`, `ai_asset_url`, `ai_tool`, `ai_reserved_at`.
+- **`ai_audio`** is placed on A4 with fades and no duck. It is currently disabled in D's config, because the Artlist MCP doesn't offer music generation.
+- **Premiere hand-off files.** The orchestrator writes `scripts/broll_job.json` with `write_shot_list: false`. The panel writes `logs/premiere_result.json`, and the orchestrator then sets `placed` under the Python file lock, because UXP can't take `fcntl` locks. The formats are in `premiere/broll-builder/README.md`.
+- **Orchestrator logs.** `logs/orchestrator.log` and `logs/orchestrator_last_run.json`.
