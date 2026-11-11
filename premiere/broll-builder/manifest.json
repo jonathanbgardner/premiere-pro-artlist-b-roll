@@ -1,0 +1,31 @@
+{
+  "manifestVersion": 5,
+  "id": "local.broll.builder",
+  "name": "B-roll Builder",
+  "version": "1.0.0",
+  "main": "index.html",
+  "host": {
+    "app": "premierepro",
+    "minVersion": "26.0.0"
+  },
+  "requiredPermissions": {
+    "localFileSystem": "fullAccess"
+  },
+  "entrypoints": [
+    {
+      "type": "panel",
+      "id": "brollPanel",
+      "label": { "default": "B-roll Builder" },
+      "minimumSize": { "width": 320, "height": 360 },
+      "maximumSize": { "width": 2000, "height": 2000 },
+      "preferredDockedSize": { "width": 380, "height": 560 },
+      "preferredFloatingSize": { "width": 420, "height": 600 },
+      "icons": [
+        { "width": 23, "height": 23, "path": "icons/panel.svg", "scale": [1, 2], "theme": ["all"] }
+      ]
+    }
+  ],
+  "icons": [
+    { "width": 48, "height": 48, "path": "icons/plugin.svg", "scale": [1, 2], "theme": ["all"], "species": ["pluginList"] }
+  ]
+}

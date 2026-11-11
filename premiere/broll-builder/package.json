@@ -1,0 +1,10 @@
+{
+  "name": "broll-builder",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Premiere Pro 2026 UXP panel: builds the B-roll sequence from shot_list.json (workstream C).",
+  "type": "commonjs",
+  "scripts": {
+    "test": "node --test ../../tests/premiere/"
+  }
+}
