@@ -111,6 +111,7 @@ test("timecode parity with pipeline/common/shotlist.py", () => {
     n++;
   });
   assert.ok(n > 3000, `parity table too small (${n})`);
+  console.log(`parity cases: ${n}`);
 });
 
 test("nominal() uses Python banker's rounding", () => {

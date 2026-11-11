@@ -293,8 +293,11 @@ class Executor {
     const aCount = await seq.getAudioTrackCount();
     // The "other" media goes to a fresh track past the last one so it can never
     // overwrite dialogue (A1/A2) or V1. With subclips there is no other media.
-    const vIdx = op.mediaType === "video" ? op.trackIndex : Math.max(vCount, op.trackIndex + 1);
-    const aIdx = op.mediaType === "audio" ? op.trackIndex : Math.max(aCount, 4);
+    // Scratch indices are fixed once per run (first empty track past V3 / A4).
+    if (this.scratchV === undefined) this.scratchV = Math.max(vCount, 3);
+    if (this.scratchA === undefined) this.scratchA = Math.max(aCount, 4);
+    const vIdx = op.mediaType === "video" ? op.trackIndex : this.scratchV;
+    const aIdx = op.mediaType === "audio" ? op.trackIndex : this.scratchA;
 
     this.tx(`B-roll: place ${op.shotId} on ${op.trackLabel}`, () => [editor.createOverwriteItemAction(source, this.TT(op.startTicks), vIdx, aIdx)]);
 
