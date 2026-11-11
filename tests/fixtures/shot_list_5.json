@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "project": "test_episode",
+  "fps": 29.97,
+  "drop_frame": false,
+  "source_sequence": "test_episode_main",
+  "shots": [
+    {
+      "id": "S001", "start_tc": "00:00:00:00", "duration_s": 60.0, "type": "music",
+      "reason": "Intro music bed", "queries": ["warm acoustic morning", "gentle folk intro"],
+      "status": "pending", "file": null, "confidence": 0.0,
+      "section": "intro", "mood": "warm, hopeful", "tempo": "slow"
+    },
+    {
+      "id": "S002", "start_tc": "00:00:15:00", "duration_s": 4.0, "type": "stock_video",
+      "reason": "Speaker mentions feeding cattle at dawn",
+      "queries": ["cattle feeding sunrise", "farm morning herd", "cows field"],
+      "status": "pending", "file": null, "confidence": 0.0
+    },
+    {
+      "id": "S003", "start_tc": "00:00:31:15", "duration_s": 5.5, "type": "stock_video",
+      "reason": "Mentions grain prices rising 30%",
+      "queries": ["grain harvest combine", "wheat field harvest", "farm machinery"],
+      "status": "pending", "file": null, "confidence": 0.0
+    },
+    {
+      "id": "S004", "start_tc": "00:00:48:00", "duration_s": 6.0, "type": "ai_video",
+      "reason": "Abstract: soil microbiome under a microscope",
+      "queries": ["soil microbes microscope"],
+      "status": "pending", "file": null, "confidence": 0.0,
+      "ai_prompt": "Macro cinematic shot of soil bacteria and fungal threads glowing under a microscope, slow push-in, 4K"
+    },
+    {
+      "id": "S005", "start_tc": "00:01:05:20", "duration_s": 3.0, "type": "stock_video",
+      "reason": "Mentions small-town main street",
+      "queries": ["small town main street", "rural town aerial"],
+      "status": "pending", "file": null, "confidence": 0.0
+    }
+  ],
+  "ai_budget": { "max_clips": 8, "approved": [], "generated": [] }
+}

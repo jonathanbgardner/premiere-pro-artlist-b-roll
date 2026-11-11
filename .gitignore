@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+*.lock
+.shot_list.*.tmp
+node_modules/
+.env
